@@ -20,15 +20,15 @@ func (i Interval) Do(f func(time.Time, *time.Ticker)) {
 	case Minutely:
 		dur = 1 * time.Minute
 		tofuture = time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute()+1, 0, 0, time.Local).Sub(now)
-	default:
-		dur = time.Duration(i) * time.Hour
-		tofuture = time.Date(now.Year(), now.Month(), now.Day(), now.Hour()+int(i), 0, 0, 0, time.Local).Sub(now)
 	case Hourly:
 		dur = 1 * time.Hour
 		tofuture = time.Date(now.Year(), now.Month(), now.Day(), now.Hour()+1, 0, 0, 0, time.Local).Sub(now)
 	case Daily:
 		dur = 24 * time.Hour
 		tofuture = time.Date(now.Year(), now.Month(), now.Day()+1, 0, 0, 0, 0, time.Local).Sub(now)
+	default:
+		dur = time.Duration(i) * time.Hour
+		tofuture = time.Date(now.Year(), now.Month(), now.Day(), now.Hour()+int(i), 0, 0, 0, time.Local).Sub(now)
 	}
 	tick := time.NewTicker(dur)
 	go func() {
