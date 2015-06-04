@@ -31,8 +31,8 @@ func (i Interval) Do(f func(time.Time, *time.Ticker)) {
 		tofuture = time.Date(now.Year(), now.Month(), now.Day(), now.Hour()+int(i), 0, 0, 0, time.Local).Sub(now)
 	}
 	tick := time.NewTicker(dur)
+	f(time.Now(), tick)
 	go func() {
-		f(time.Now(), tick)
 		<-time.After(tofuture)
 		for _ = range tick.C {
 			f(time.Now(), tick)
